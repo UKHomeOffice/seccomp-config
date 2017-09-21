@@ -2,22 +2,21 @@ pipeline:
   build_image:
     image: docker:17.07.0
     environment:
-      - AUTHOR=ukhomeofficedigital
       - DOCKER_HOST=tcp://172.17.0.1:2375
-      - NAME=seccomp-config
-      - REGISTRY=quay.io
     commands:
-      - docker build -t ${REGISTRY}/${AUTHOR}/${NAME}:${DRONE_BUILD_NUMBER} .
+      - docker build -t quay.io/ukhomeofficedigital/seccomp-config:${DRONE_BUILD_NUMBER} .
 
   image_to_quay:
     image: docker:17.07.0
-    secrets: [quay_user,quay_password]
+    secrets: 
+      - quay_user
+      - quay_password
     environment:
       - DOCKER_HOST=tcp://172.17.0.1:2375
     commands:
-      - docker login -u=${QUAY_USER} -p=${QUAY_PASSWORD} ${REGISTRY}
-      - docker tag ${REGISTRY}/${AUTHOR}/${NAME}:${DRONE_BUILD_NUMBER} ${REGISTRY}/${AUTHOR}/${NAME}:${DRONE_COMMIT_SHA}
-      - docker push ${REGISTRY}/${AUTHOR}/${NAME}:${DRONE_COMMIT_SHA}
+      - docker login -u=${QUAY_USER} -p=${QUAY_PASSWORD} quay.io
+      - docker tag quay.io/ukhomeofficedigital/seccomp-config:${DRONE_BUILD_NUMBER} quay.io/ukhomeofficedigital/seccomp-config:${DRONE_COMMIT_SHA}
+      - docker quay.io/ukhomeofficedigital/seccomp-config:${DRONE_COMMIT_SHA}
     when:
       branch: master
       event: [push]
