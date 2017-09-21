@@ -1,0 +1,22 @@
+apiVersion: extensions/v1beta1
+kind: DaemonSet                     
+metadata:
+  name: seccomp-config
+  labels:
+    app: seccomp-config
+spec:
+  template:
+    metadata:
+      labels:
+        name: seccomp-config
+    spec:
+      containers:
+      - name: seccomp-config
+        image: quay.io/UKHomeofficeDigital/seccomp-config:latest
+        volumeMounts:
+        - name: configfile
+          mountPath: /var/lib/kubelet/seccomp
+      volumes:
+      - name: configfile
+        hostPath:
+          path: /var/lib/kubelet/seccomp
