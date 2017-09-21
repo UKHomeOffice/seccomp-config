@@ -16,7 +16,9 @@ pipeline:
     commands:
       - docker login -u=$${QUAY_USER} -p=$${QUAY_PASSWORD} quay.io
       - docker tag quay.io/ukhomeofficedigital/seccomp-config:${DRONE_BUILD_NUMBER} quay.io/ukhomeofficedigital/seccomp-config:${DRONE_COMMIT_SHA}
-      - docker quay.io/ukhomeofficedigital/seccomp-config:${DRONE_COMMIT_SHA}
+      - docker tag quay.io/ukhomeofficedigital/seccomp-config:${DRONE_BUILD_NUMBER} quay.io/ukhomeofficedigital/seccomp-config:latest
+      - docker push quay.io/ukhomeofficedigital/seccomp-config:${DRONE_COMMIT_SHA}
+      - docker push quay.io/ukhomeofficedigital/seccomp-config:latest
     when:
       branch: master
       event: [push]
