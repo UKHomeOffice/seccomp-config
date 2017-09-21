@@ -22,3 +22,14 @@ pipeline:
     when:
       branch: master
       event: [push]
+
+  rollout_dev:
+    image: quay.io/ukhomeofficedigital/kd:v0.3.1
+    secrets:
+      - kube_server
+      - kube_token
+    commands:
+      - bin/deploy.sh
+    when:
+      branch: master
+      event: [push]
