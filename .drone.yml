@@ -1,0 +1,34 @@
+pipeline:
+  build:
+    image: docker:1.13
+    environment:
+    - AUTHOR=ukhomeofficedigital
+    - DOCKER_HOST=tcp://127.0.0.1:2375
+    - NAME=seccomp-config
+    - REGISTRY=quay.io
+    commands:
+    - docker build -t ${REGISTRY}/${AUTHOR}/${NAME}:${DRONE_BUILD_NUMBER} .
+
+  deploy:
+    image: docker:1.13
+    environment:
+    - AUTHOR=ukhomeofficedigital
+    - DOCKER_HOST=tcp://127.0.0.1:2375
+    - NAME=seccomp-config
+    - REGISTRY=quay.io
+    - REGISTRY_USER=ukhomeofficedigital+seccomp-config
+    commands:
+    - docker login -u="${QUAY_USER}" -p=${QUAY_PASSWORD} ${REGISTRY}
+    - docker tag ${REGISTRY}/${AUTHOR}/${NAME}:${DRONE_BUILD_NUMBER} ${REGISTRY}/${AUTHOR}/${NAME}:${DRONE_COMMIT_SHA}
+    - docker push ${REGISTRY}/${AUTHOR}/${NAME}:${DRONE_COMMIT_SHA}
+    when:
+      branch: master
+      event: [push]
+
+services:
+  dind:
+    image: docker:1.13-dind
+    privileged: true
+    command:
+    - "-s"
+    - "overlay"
