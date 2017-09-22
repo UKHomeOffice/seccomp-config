@@ -10,9 +10,4 @@ do
 
   sleep 1
 
-  if [ls /var/lib/kubelet/seccomp/ | grep seccomp.json != "seccomp.json"]
-  then
-    break
-  fi 
-
 done
