@@ -12,7 +12,7 @@ spec:
     spec:
       containers:
       - name: seccomp-config
-        image: quay.io/ukhomeofficedigital/seccomp-config:latest
+        image: quay.io/ukhomeofficedigital/seccomp-config:{{ .SECCOMP_CONFIG_VERSION }}
         volumeMounts:
         - name: configfile
           mountPath: /var/lib/kubelet/seccomp

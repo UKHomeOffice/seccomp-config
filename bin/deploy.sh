@@ -3,6 +3,8 @@
 set -o errexit
 set -o nounset
 
+export SECCOMP_CONFIG_VERSION=v0.1
+
 export KUBE_NAMESPACE=kube-system
 export KUBE_SERVER=${KUBE_SERVER}
 export KUBE_TOKEN=${KUBE_TOKEN}
