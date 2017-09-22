@@ -5,7 +5,7 @@ LABEL description="Seccomp config docker image" \
 
 WORKDIR /home/config
 
-COPY seccomp.json /home/config/seccomp.json
+COPY test.json /home/config/test.json
 COPY move-seccomp.sh /home/config/move-seccomp.sh
 
 ENTRYPOINT ["./move-seccomp.sh"]
