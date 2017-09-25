@@ -32,7 +32,7 @@ pipeline:
       - DOCKER_HOST=tcp://172.17.0.1:2375
     commands:
       - docker login -u=$${QUAY_USER} -p=$${QUAY_PASSWORD} quay.io
-      - docker tag quay.io/ukhomeofficedigital/seccomp-config:$${DRONE_COMMIT_SHA} quay.io/ukhomeofficedigital/seccomp-config:$${DRONE_TAG}
+      - docker tag quay.io/ukhomeofficedigital/seccomp-config:$${DRONE_BUILD_NUMBER} quay.io/ukhomeofficedigital/seccomp-config:$${DRONE_TAG}
       - docker push quay.io/ukhomeofficedigital/seccomp-config:$${DRONE_TAG}
     when:
       event: tag
