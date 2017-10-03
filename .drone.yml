@@ -40,8 +40,23 @@ pipeline:
   rollout_dev:
     image: quay.io/ukhomeofficedigital/kd:v0.3.1
     secrets:
-      - kube_server
-      - kube_token
+      - dev_kube_server
+      - dev_kube_token
+    environment:
+      - DRONE_DEPLOY_TO=dev
+    commands:
+      - bin/deploy.sh
+    when:
+      branch: master
+      event: push
+
+  rollout_test:
+    image: quay.io/ukhomeofficedigital/kd:v0.3.1
+    secrets:
+      - test_kube_server
+      - test_kube_token
+    environment:
+      - DRONE_DEPLOY_TO=test
     commands:
       - bin/deploy.sh
     when:
